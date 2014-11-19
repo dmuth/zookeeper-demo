@@ -36,6 +36,11 @@ Vagrant.configure("2") do |config|
 			config.vbguest.auto_update = false
 		end
 
+		#
+		# Provision this instance
+		#
+		host.vm.provision "shell", path: "./bin/provision.sh"
+
 	end
 
 
@@ -61,6 +66,11 @@ Vagrant.configure("2") do |config|
 			config.vbguest.auto_update = false
 		end
 
+		#
+		# Provision this instance
+		#
+		host.vm.provision "shell", path: "./bin/provision.sh"
+
 	end
 
 	config.vm.define :zoo3 do |host|
@@ -84,6 +94,11 @@ Vagrant.configure("2") do |config|
 		if Vagrant.has_plugin?("vagrant-vbguest")
 			config.vbguest.auto_update = false
 		end
+
+		#
+		# Provision this instance
+		#
+		host.vm.provision "shell", path: "./bin/provision.sh"
 
 	end
 
