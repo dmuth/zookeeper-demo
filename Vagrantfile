@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
 		host.vm.box = "trusty64"
 		host.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
 		host.vm.hostname = "zoo2"
-		host.vm.network "private_network", ip: "10.0.10.101"
+		host.vm.network "private_network", ip: "10.0.10.102"
 
 		#
 		# Set the amount of RAM and CPU cores
@@ -68,7 +68,7 @@ Vagrant.configure("2") do |config|
 		host.vm.box = "trusty64"
 		host.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
 		host.vm.hostname = "zoo3"
-		host.vm.network "private_network", ip: "10.0.10.101"
+		host.vm.network "private_network", ip: "10.0.10.103"
 
 		#
 		# Set the amount of RAM and CPU cores
