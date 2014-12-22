@@ -14,6 +14,13 @@ Vagrant.configure("2") do |config|
 		config.cache.scope = :box
 	end
 
+
+	#
+	# No good can come from updating plugins.
+	# Plus, this makes creating Vagrant instances MUCH faster
+	#
+	config.vbguest.auto_update = false
+
 	config.vm.define :zoo1 do |host|
 
 		host.vm.box = "trusty64"
