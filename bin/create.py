@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# This script creates Ephemeral sequenved zodes
+# This script creates Ephemeral sequenced zodes
 #
 
 
