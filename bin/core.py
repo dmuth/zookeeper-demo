@@ -41,6 +41,10 @@ def connect():
 	retval.add_listener(my_listener)
 	retval.start()
 
+	if not retval.exists(key):
+		logging.info("Created '%s'" % key)
+		retval.create(key)
+
 	return(retval)
 
 
