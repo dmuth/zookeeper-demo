@@ -8,6 +8,8 @@ import commands
 import json
 import logging
 import os
+import signal
+import sys
 import time
 
 
@@ -19,6 +21,14 @@ import core
 def getIP():
 	retval = commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1][5:]
 	return(retval)
+
+#
+# Bails out when we get a signal
+#
+def signal_handler(signal, frame):
+	logging.info("Ctrl-C received. Deleting key")
+	zk.delete(key)
+	sys.exit(0)
 
 
 zk = core.connect()
@@ -33,9 +43,10 @@ logging.info("Inserted IP and PID into key '%s'" % key)
 logging.info("Just hanging out because these are emphemeral keys. Press ^C to exit...")
 
 #
-# Just hang out, since the key is ephemeral
+# Wait for the user to press ctrl-C
 #
-while 1:
-	time.sleep(3600)
+signal.signal(signal.SIGINT, signal_handler)
+signal.pause()
+
 
 
