@@ -5,11 +5,21 @@
 
 
 import logging
+import signal
+import sys
 import time
 
 
 import core
 
+
+#
+# Bails out when we get a signal
+#
+def signal_handler(signal, frame):
+	logging.info("Ctrl-C received. Deleting key")
+	zk.delete(key)
+	sys.exit(0)
 
 zk = core.connect()
 
@@ -21,9 +31,9 @@ def watch_children(children):
 logging.info("Watching %s for changes. Press ^C to abort..." % core.key)
 
 #
-# Loop forever, just printing up node changes when we get them
+# Wait for the user to press ctrl-C
 #
-while 1:
-	time.sleep(3600)
+signal.signal(signal.SIGINT, signal_handler)
+signal.pause()
 
 
