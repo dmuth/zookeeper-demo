@@ -15,11 +15,6 @@ Vagrant.configure("2") do |config|
 	end
 
 
-	#
-	# No good can come from updating plugins.
-	# Plus, this makes creating Vagrant instances MUCH faster
-	#
-	config.vbguest.auto_update = false
 
 	config.vm.define :zoo1 do |host|
 
@@ -37,7 +32,8 @@ Vagrant.configure("2") do |config|
 		end
 
 		#
-		# Updating the plugins at start time never ends well.
+		# No good can come from updating plugins.
+		# Plus, this makes creating Vagrant instances MUCH faster
 		#
 		if Vagrant.has_plugin?("vagrant-vbguest")
 			config.vbguest.auto_update = false
