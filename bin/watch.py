@@ -26,7 +26,12 @@ zk = core.connect()
 
 @zk.ChildrenWatch(core.key)
 def watch_children(children):
-    logging.info("Children of %s are now: %s" % (core.key, children) )
+	logging.info("Children of %s are now: %s" % (core.key, children) )
+	children = sorted(children)
+	for child in children:
+		node = core.key + "/" + child
+		data = zk.get(node)
+		logging.info("Node: %s, Data: %s" % (child, data[0]))
 
 logging.info("Watching %s for changes. Press ^C to abort..." % core.key)
 
