@@ -47,5 +47,15 @@ def connect():
 
 	return(retval)
 
-
+#
+# This function can be used as a decorator to provide static variables 
+# for functions.
+#
+# Borrowed from http://stackoverflow.com/a/279586/196073
+#
+def static_var(varname, value):
+	def decorate(func):
+		setattr(func, varname, value)
+		return func
+	return decorate
 
