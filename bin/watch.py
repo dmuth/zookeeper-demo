@@ -17,8 +17,6 @@ import core
 # Bails out when we get a signal
 #
 def signal_handler(signal, frame):
-	logging.info("Ctrl-C received. Deleting key")
-	zk.delete(key)
 	sys.exit(0)
 
 zk = core.connect()
