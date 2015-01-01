@@ -2,6 +2,8 @@
 # This module is imported and sets common settings
 #
 
+import commands
+
 import coloredlogs, logging
 coloredlogs.install()
 logging.basicConfig(level=logging.INFO)
@@ -58,4 +60,13 @@ def static_var(varname, value):
 		setattr(func, varname, value)
 		return func
 	return decorate
+
+
+#
+# Return the current IP address
+#
+def getIP():
+	retval = commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1][5:]
+	return(retval)
+
 

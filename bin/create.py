@@ -36,14 +36,6 @@ def signal_handler(signal, frame):
 	sys.exit(0)
 
 
-#
-# Return the current IP address
-#
-def getIP():
-	retval = commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1][5:]
-	return(retval)
-
-
 params = docopt(__doc__)
 num_secs = 0
 if (params["SECONDS"]):
@@ -55,7 +47,7 @@ if (params["SECONDS"]):
 #
 zk = core.connect()
 data = {}
-data["ip"] = getIP()
+data["ip"] = core.getIP()
 data["pid"] = os.getpid()
 
 key = zk.create(core.key + "/testseq-", json.dumps(data), ephemeral=True, sequence=True)
