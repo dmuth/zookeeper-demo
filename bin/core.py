@@ -3,6 +3,8 @@
 #
 
 import commands
+import json
+import os
 
 import coloredlogs, logging
 coloredlogs.install()
@@ -49,6 +51,7 @@ def connect():
 
 	return(retval)
 
+
 #
 # This function can be used as a decorator to provide static variables 
 # for functions.
@@ -68,7 +71,6 @@ def static_var(varname, value):
 def getIP():
 	retval = commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1][5:]
 	return(retval)
-
 
 
 #
@@ -125,5 +127,30 @@ def isMasterNode(zk, our_key, cb):
 				break
 
 			last_node = child
+
+
+#
+# @param object zk The Zookeeper object
+#
+# @return tuple A tuple of the full key (path included) and just 
+#	the key without the path
+#
+# Create an ephemeral key
+#
+def createKey(zk):
+
+	data = {}
+	data["ip"] = getIP()
+	data["pid"] = os.getpid()
+
+	full_key = zk.create(key + "/testseq-", json.dumps(data), ephemeral=True, sequence=True)
+	key_parts = full_key.split("/")
+	our_key = key_parts[len(key_parts) - 1]
+	logging.info("Inserted IP and PID into key '%s' (our_key=%s)" % (full_key, our_key) )
+
+	retval = (full_key, our_key)
+	return(retval)
+
+
 
 

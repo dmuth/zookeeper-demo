@@ -14,9 +14,7 @@ Usage: create.py [SECONDS]
 
 
 import commands
-import json
 import logging
-import os
 import random
 import signal
 import sys
@@ -32,7 +30,7 @@ import core
 #
 def signal_handler(signal, frame):
 	logging.info("Ctrl-C received. Deleting key")
-	zk.delete(key)
+	zk.delete(key_full)
 	sys.exit(0)
 
 
@@ -46,15 +44,8 @@ if (params["SECONDS"]):
 # Connect to Zookeeper and create our node
 #
 zk = core.connect()
-data = {}
-data["ip"] = core.getIP()
-data["pid"] = os.getpid()
 
-key = zk.create(core.key + "/testseq-", json.dumps(data), ephemeral=True, sequence=True)
-key_parts = key.split("/")
-our_key = key_parts[len(key_parts) - 1]
-logging.info("Inserted IP and PID into key '%s' (our_key=%s)" % (key, our_key) )
-
+(key_full, key_local) = core.createKey(zk)
 
 #
 # Our worker function to be run when a node is changed
@@ -62,12 +53,13 @@ logging.info("Inserted IP and PID into key '%s' (our_key=%s)" % (key, our_key) )
 def watch_node_worker(data, stat, node_to_watch):
 	#print("watch_node(): data", data)
 	logging.info("Change detected in node '%s'" % node_to_watch)
-	core.isMasterNode(zk, our_key, watch_node_worker)
+	core.isMasterNode(zk, key_local, watch_node_worker)
+
 
 #
 # First check to see if we're the master or not
 #
-core.isMasterNode(zk, our_key, watch_node_worker)
+core.isMasterNode(zk, key_local, watch_node_worker)
 
 
 #
