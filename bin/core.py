@@ -70,3 +70,60 @@ def getIP():
 	return(retval)
 
 
+
+#
+#
+# @param object zk The Zookeeper object
+# @param string node_to_watch The name of the znode to watch for changes
+# @param function cb The callback to fire when this znode changes.
+#
+# This function sets up a watch on a Node.
+# Because a watcher function is called when it is assigned and an 
+# unlimited number of times when a node changes (or is deleted), 
+# we need to have a little wrapper which ensures that a specific 
+# node can only be watched ONCE.
+#
+@static_var("watched", {})
+def watchNode(zk, node_to_watch, cb):
+
+	if node_to_watch in watchNode.watched:
+		return False
+	
+	watchNode.watched = node_to_watch
+	logging.info("Watching key: %s" % node_to_watch)
+
+	@zk.DataWatch(node_to_watch)
+	def watch_node(data, stat):
+		cb(data, stat, node_to_watch)
+
+
+#
+#
+# @param object zk The Zookeeper object
+# @param string our_key The name of our znode
+# @param object cb The callback to figre when the ndoe changes--this is 
+#	passed back into a call to watchNode().
+#
+# Get our children and determine if we are the master (first) node.
+# If not, watch the node immediately before this one.
+#
+def isMasterNode(zk, our_key, cb):
+
+	children = zk.get_children(key)
+	children = sorted(children)
+
+	if (children[0] == our_key):
+		logging.info("We're the master node!")
+
+	else:
+		last_node = ""
+		for child in children:
+			if (child == our_key):
+				node_to_watch = key + "/" + last_node
+				logging.info("Found our key, watching the previous key (%s)" % node_to_watch)
+				watchNode(zk, node_to_watch, cb)
+				break
+
+			last_node = child
+
+

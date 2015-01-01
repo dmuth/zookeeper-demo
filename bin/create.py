@@ -57,53 +57,17 @@ logging.info("Inserted IP and PID into key '%s' (our_key=%s)" % (key, our_key) )
 
 
 #
-# This function sets up a watch on a Node.
-# Because a watcher function is called when it is assigned and an 
-# unlimited number of times when a node changes (or is deleted), 
-# we need to have a little wrapper which ensures that a specific 
-# node can only be watched ONCE.
+# Our worker function to be run when a node is changed
 #
-@core.static_var("watched", {})
-def watchNode(our_key, node_to_watch):
-
-	if node_to_watch in watchNode.watched:
-		return False
-	
-	watchNode.watched = node_to_watch
-	logging.info("Watching key: %s" % node_to_watch)
-
-	@zk.DataWatch(node_to_watch)
-	def watch_node(data, stat):
-		#print("watch_node(): data", data, stat)
-		logging.info("Change detected in node '%s'" % node_to_watch)
-		isMasterNode(our_key)
-
+def watch_node_worker(data, stat, node_to_watch):
+	#print("watch_node(): data", data)
+	logging.info("Change detected in node '%s'" % node_to_watch)
+	core.isMasterNode(zk, our_key, watch_node_worker)
 
 #
-# Get our children and determine if we are the master (first) node.
-# If not, watch the node immediately before this one.
+# First check to see if we're the master or not
 #
-def isMasterNode(our_key):
-
-	children = zk.get_children(core.key)
-	children = sorted(children)
-
-	if (children[0] == our_key):
-		logging.info("We're the master node!")
-
-	else:
-		last_node = ""
-		for child in children:
-			if (child == our_key):
-				node_to_watch = core.key + "/" + last_node
-				logging.info("Found our key, watching the previous key (%s)" % node_to_watch)
-				watchNode(our_key, node_to_watch)
-				break
-
-			last_node = child
-
-isMasterNode(our_key)
-
+core.isMasterNode(zk, our_key, watch_node_worker)
 
 
 #
