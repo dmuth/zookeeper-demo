@@ -36,7 +36,7 @@ zk = core.connect(host)
 
 
 #
-# Now change the parent node to read-only and try to delete the child
+# Change / to be readable by everyone, and writeable only by localhost.
 #
 acls = [
 	security.make_acl("world", "anyone",
@@ -47,5 +47,7 @@ acls = [
 	),
 	]
 zk.set_acls("/", acls)
+
+logging.info("/ has been changed to read-only for everyone but localhost")
 
 
