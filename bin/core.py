@@ -71,7 +71,7 @@ def static_var(varname, value):
 #
 # Return the current IP address
 #
-def getIP():
+def get_ip():
 	retval = commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1][5:]
 	return(retval)
 
@@ -89,16 +89,16 @@ def getIP():
 # node can only be watched ONCE.
 #
 @static_var("watched", {})
-def watchNode(zk, node_to_watch, cb):
+def watch_node(zk, node_to_watch, cb):
 
-	if node_to_watch in watchNode.watched:
+	if node_to_watch in watch_node.watched:
 		return False
 	
-	watchNode.watched = node_to_watch
+	watch_node.watched = node_to_watch
 	logging.info("Watching key: %s" % node_to_watch)
 
 	@zk.DataWatch(node_to_watch)
-	def watch_node(data, stat):
+	def _watch_node_core(data, stat):
 		cb(data, stat, node_to_watch)
 
 
@@ -107,12 +107,12 @@ def watchNode(zk, node_to_watch, cb):
 # @param object zk The Zookeeper object
 # @param string our_key The name of our znode
 # @param object cb The callback to figre when the ndoe changes--this is 
-#	passed back into a call to watchNode().
+#	passed back into a call to watch_node().
 #
 # Get our children and determine if we are the master (first) node.
 # If not, watch the node immediately before this one.
 #
-def isMasterNode(zk, our_key, cb):
+def is_master_node(zk, our_key, cb):
 
 	children = zk.get_children(key)
 	children = sorted(children)
@@ -126,7 +126,7 @@ def isMasterNode(zk, our_key, cb):
 			if (child == our_key):
 				node_to_watch = key + "/" + last_node
 				logging.info("Found our key, watching the previous key (%s)" % node_to_watch)
-				watchNode(zk, node_to_watch, cb)
+				watch_node(zk, node_to_watch, cb)
 				break
 
 			last_node = child
@@ -146,7 +146,7 @@ def isMasterNode(zk, our_key, cb):
 def createKey(zk, acls = [], ephemeral = True, target_key = ""):
 
 	data = {}
-	data["ip"] = getIP()
+	data["ip"] = get_ip()
 	data["pid"] = os.getpid()
 
 	if not target_key:

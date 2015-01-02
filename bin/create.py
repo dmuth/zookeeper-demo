@@ -53,13 +53,13 @@ zk = core.connect()
 def watch_node_worker(data, stat, node_to_watch):
 	#print("watch_node(): data", data)
 	logging.info("Change detected in node '%s'" % node_to_watch)
-	core.isMasterNode(zk, key_local, watch_node_worker)
+	core.is_master_node(zk, key_local, watch_node_worker)
 
 
 #
 # First check to see if we're the master or not
 #
-core.isMasterNode(zk, key_local, watch_node_worker)
+core.is_master_node(zk, key_local, watch_node_worker)
 
 
 #
