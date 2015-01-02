@@ -131,19 +131,31 @@ def isMasterNode(zk, our_key, cb):
 
 #
 # @param object zk The Zookeeper object
+# @param list acls ACLs to apply to the node we're going to create
+# @param boolean ephemeral Is this an ephemeral node?
+# @param string target_key Do we want to override our key?
 #
 # @return tuple A tuple of the full key (path included) and just 
 #	the key without the path
 #
 # Create an ephemeral key
 #
-def createKey(zk):
+def createKey(zk, acls = [], ephemeral = True, target_key = ""):
 
 	data = {}
 	data["ip"] = getIP()
 	data["pid"] = os.getpid()
 
-	full_key = zk.create(key + "/testseq-", json.dumps(data), ephemeral=True, sequence=True)
+	if not target_key:
+		target_key = key + "/test-"
+	else:
+		target_key = key + "/" + target_key
+
+	full_key = zk.create(target_key, json.dumps(data), 
+		acl = acls,
+		sequence=True
+		)
+
 	key_parts = full_key.split("/")
 	our_key = key_parts[len(key_parts) - 1]
 	logging.info("Inserted IP and PID into key '%s' (our_key=%s)" % (full_key, our_key) )
