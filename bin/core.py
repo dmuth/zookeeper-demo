@@ -23,9 +23,9 @@ key = "/zkdemo"
 #
 # Connect to Zookeeper and return the handle.
 #
-def connect():
-	hosts = "127.0.0.1:2181"
-	#hosts = "10.0.10.101:2181"
+# @param string hosts Comma-delimited list of hosts and port numbers
+#
+def connect(hosts = "127.0.0.1:2181"):
 
 	retval = KazooClient(hosts = hosts)
 
