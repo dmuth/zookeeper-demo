@@ -15,11 +15,10 @@ Vagrant.configure("2") do |config|
 	end
 
 
-
 	config.vm.define :zoo1 do |host|
 
 		host.vm.box = "trusty64"
-		host.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
+		host.vm.box = "ubuntu/trusty64"
 		host.vm.hostname = "zoo1"
 		host.vm.network "private_network", ip: "10.0.10.101"
 
