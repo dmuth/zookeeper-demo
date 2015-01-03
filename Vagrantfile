@@ -17,7 +17,6 @@ Vagrant.configure("2") do |config|
 
 	config.vm.define :zoo1 do |host|
 
-		host.vm.box = "trusty64"
 		host.vm.box = "ubuntu/trusty64"
 		host.vm.hostname = "zoo1"
 		host.vm.network "private_network", ip: "10.0.10.101"
@@ -48,8 +47,7 @@ Vagrant.configure("2") do |config|
 
 	config.vm.define :zoo2 do |host|
 
-		host.vm.box = "trusty64"
-		host.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
+		host.vm.box = "ubuntu/trusty64"
 		host.vm.hostname = "zoo2"
 		host.vm.network "private_network", ip: "10.0.10.102"
 
@@ -77,8 +75,7 @@ Vagrant.configure("2") do |config|
 
 	config.vm.define :zoo3 do |host|
 
-		host.vm.box = "trusty64"
-		host.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
+		host.vm.box = "ubuntu/trusty64"
 		host.vm.hostname = "zoo3"
 		host.vm.network "private_network", ip: "10.0.10.103"
 
