@@ -4,7 +4,6 @@ chardet==2.0.1
 colorama==0.2.5
 coloredlogs==0.8
 docopt==0.6.2
-gyp==0.1
 html5lib==0.999
 kazoo==2.0
 python-apt==0.9.3.5
