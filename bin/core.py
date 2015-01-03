@@ -156,7 +156,8 @@ def createKey(zk, acls = [], ephemeral = True, target_key = ""):
 
 	full_key = zk.create(target_key, json.dumps(data), 
 		acl = acls,
-		sequence=True
+		sequence=True,
+		ephemeral = ephemeral,
 		)
 
 	key_parts = full_key.split("/")
