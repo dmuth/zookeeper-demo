@@ -88,7 +88,7 @@ acls = [
 		)]
 (key_full, key_local) = core.createKey(zk, acls)
 all_nodes.append(key_full)
-core.watchNode(zk, key_full, watch_node_worker)
+core.watch_node(zk, key_full, watch_node_worker)
 #print zk.get_acls(key_full)
 zk.get(key_full)
 
@@ -103,7 +103,7 @@ acls = [
 (key_full, key_local) = core.createKey(zk, acls)
 all_nodes.append(key_full)
 try:
-	core.watchNode(zk, key_full, watch_node_worker)
+	core.watch_node(zk, key_full, watch_node_worker)
 except exceptions.NoAuthError as e:
 	logging.info("Caught NoAuthError (as we should have)")
 else:
@@ -116,12 +116,12 @@ else:
 #
 (key_full, key_local) = core.createKey(zk, ephemeral = False)
 all_nodes.append(key_full)
-core.watchNode(zk, key_full, watch_node_worker)
+core.watch_node(zk, key_full, watch_node_worker)
 
 target_key = key_local + "/test_child-"
 (child_key, child_key_local) = core.createKey(zk, ephemeral = False, target_key = target_key)
 all_nodes.append(child_key)
-core.watchNode(zk, child_key, watch_node_worker)
+core.watch_node(zk, child_key, watch_node_worker)
 
 #
 # Now change the parent node to read-only and try to delete the child
