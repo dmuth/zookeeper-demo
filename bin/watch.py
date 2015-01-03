@@ -9,6 +9,7 @@ import signal
 import sys
 import time
 
+from kazoo import exceptions
 
 import core
 
@@ -28,8 +29,16 @@ def watch_children(children):
 	children = sorted(children)
 	for child in children:
 		node = core.key + "/" + child
-		data = zk.get(node)
-		logging.info("Node: %s, Data: %s" % (child, data[0]))
+
+		try:
+			data = zk.get(node)
+			logging.info("Node: %s, Data: %s" % (child, data[0]))
+
+		except exceptions.NoAuthError as e:
+			logging.info("Node '%s' was denied access" % (child) )
+
+		except exceptions.NoNodeError as e:
+			logging.info("Node '%s' was deleted" % (child) )
 
 logging.info("Watching %s for changes. Press ^C to abort..." % core.key)
 
