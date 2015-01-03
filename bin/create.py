@@ -74,6 +74,6 @@ time.sleep(num_secs)
 
 
 logging.info("Woke up! Deleting our key and disconnecting.")
-zk.delete(key)
+zk.delete(key_full)
 
 
