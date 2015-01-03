@@ -10,12 +10,6 @@
 set -e
 
 
-#
-# Create a symlink to /vagrant
-#
-ln -sf /vagrant .
-
-
 MINUTES=1440
 #MINUTES=10 # Debugging
 #MINUTES=1 # Debugging
