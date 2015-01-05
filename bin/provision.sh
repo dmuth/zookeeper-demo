@@ -32,9 +32,19 @@ then
 fi
 
 
+echo "# " 
+echo "# Installing Zookeeper and our necesary Python modules" 
+echo "# " 
 apt-get install -y python-setuptools zookeeper zookeeperd
 easy_install pip
 pip install -r /vagrant/requirements.txt
+
+echo "# " 
+echo "# Installing Zookeeper config" 
+echo "# " 
+cp /vagrant/conf/zoo.cfg-${HOSTNAME} /etc/zookeeper/conf/zoo.cfg
+cp /vagrant/conf/myid-${HOSTNAME} /etc/zookeeper/conf/myid
+
 
 PROCESSES=$(pgrep -f zookeeper || true)
 if test ! "$PROCESSES"
@@ -44,5 +54,12 @@ then
 	echo "# Starting Zookeeper..."
 	echo "# "
 	service zookeeper start
+
+else 
+	echo "# "
+	echo "# Restarting Zookeeper..."
+	echo "# "
+	service zookeeper restart
+
 fi
 
