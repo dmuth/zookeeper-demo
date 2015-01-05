@@ -1,5 +1,10 @@
 # Zookeeper-Demo
 
+Zookeeper is a filesystem. Sort of.  It is also a database. Sort of.
+
+Zookeeper allows you to store data that distributed, highly available, and highly consistent, even when some Zookeeper servers are unavailable. Common uses of Zookeeper include storage of configuration information, naming, providing distributed synchronization, and providing group services.
+
+In an effort to learn Zookeeper, I put together a collection of scripts that talk to a virtual cluster of Zookeeper instances.  These scripts do reading, writing, and advanced features such as watching and master/leader election.
 
 
 ## Quickstart
