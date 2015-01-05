@@ -25,7 +25,8 @@ key = "/zkdemo"
 #
 # @param string hosts Comma-delimited list of hosts and port numbers
 #
-def connect(hosts = "127.0.0.1:2181"):
+#def connect(hosts = "127.0.0.1:2181"):
+def connect(hosts = "10.0.10.101:2181,10.0.10.102:2181,10.0.10.103:2181"):
 
 	retval = KazooClient(hosts = hosts)
 

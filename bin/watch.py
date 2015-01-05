@@ -2,6 +2,16 @@
 #
 # This script watches a specific zode and prints up changes to it
 #
+"""
+Usage: watch.py [--host=<hostname>]
+
+	--host=<hostname>	The hostname and port to connect to [default: 127.0.0.1:2181]
+
+This script will lock down / in your Zookeeper installation so that only 
+127.0.0.1 can create new znodes
+
+
+"""
 
 
 import logging
@@ -9,6 +19,7 @@ import signal
 import sys
 import time
 
+from docopt import docopt
 from kazoo import exceptions
 
 import core
@@ -20,7 +31,11 @@ import core
 def signal_handler(signal, frame):
 	sys.exit(0)
 
-zk = core.connect()
+params = docopt(__doc__)
+if not params["--host"]:
+	params["--host"] = "127.0.0.1:2181"
+
+zk = core.connect(hosts = params["--host"])
 
 
 @zk.ChildrenWatch(core.key)

@@ -3,11 +3,12 @@
 # This script creates Ephemeral sequenced zodes
 #
 """
-Usage: create.py [SECONDS]
+Usage: create.py [SECONDS] [--host=<hostname>]
 
 	-h, --help		Show this help section
 	SECONDS			How many seconds to stay running for?
-					If this is not specified, a random value is used
+				If this is not specified, a random value is used
+	--host=<hostname>	The hostname and port to connect to [default: 127.0.0.1:2181]
 
 
 """
@@ -38,12 +39,14 @@ params = docopt(__doc__)
 num_secs = 0
 if (params["SECONDS"]):
 	num_secs = int(params["SECONDS"])
+if not params["--host"]:
+	params["--host"] = "127.0.0.1:2181"
 
 
 #
 # Connect to Zookeeper and create our node
 #
-zk = core.connect()
+zk = core.connect(params["--host"])
 
 (key_full, key_local) = core.createKey(zk)
 

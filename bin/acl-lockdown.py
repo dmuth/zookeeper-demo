@@ -28,11 +28,10 @@ import core
 
 
 params = docopt(__doc__)
-host = params["--host"]
-if not host:
-	host = "127.0.0.1:2181"
+if not params["--host"]:
+	params["--host"] = "127.0.0.1:2181"
 
-zk = core.connect(host)
+zk = core.connect(hosts = params["--host"])
 
 
 #

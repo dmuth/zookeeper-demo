@@ -3,9 +3,10 @@
 # This script creates Ephemeral sequenced zodes
 #
 """
-Usage: create-with-acls.py [SECONDS]
+Usage: create-with-acls.py [SECONDS] [--host=<hostname>]
 
 	-h, --help		Show this help section
+	--host=<hostname>	The hostname and port to connect to [default: 127.0.0.1:2181]
 	SECONDS			How many seconds to stay running for?
 					If this is not specified, a random value is used
 
@@ -54,9 +55,12 @@ def signal_handler(signal, frame):
 #
 params = docopt(__doc__)
 num_secs = 0
+
 if (params["SECONDS"]):
 	num_secs = int(params["SECONDS"])
 
+if not params["--host"]:
+	params["--host"] = "127.0.0.1:2181"
 
 #
 # Our worker function to be run when a node is changed
@@ -76,7 +80,7 @@ all_nodes = []
 #
 # Connect to Zookeeper and create some nodes of varying permissions
 #
-zk = core.connect()
+zk = core.connect(hosts = params["--host"])
 
 
 #
