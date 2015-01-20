@@ -34,7 +34,7 @@ You can SSH into each server by typing `vagrant ssh zoo1` (or zoo2 or zoo3 as ap
 
 ## Utilities to play with
 
-I've written the following Python scripts which let you play with Zookeeper
+I've written the following Python scripts in `/vagrant/bin/` which let you play with Zookeeper
 
 - `watch.py` - Watches the /zkdemo znode in Zookeeper until the script is terminated with ^C.  All nodes that these scripts create are written there.  When a node is created, updated, or deleted, this script prints that out.  It's a good idea to leave this script running in one terminal while you run…
 - `create.py [NUMBER]` - Creates a single Znode under /zkdemo. The znode is ephemeral (it is deleted when the client disconnects) and seqeuntial (it receives a unique auto incrementing number, not unlike what MySQL does)  If an argument is specified, that is the number of seconds that this script stays running (and keeping the ephemeral node alive) before existing.  If NUMBER is not specified, the script runs for a random number of seconds between 1 and 60.
