@@ -38,7 +38,7 @@ to run multiple copies of Zookeeper on the same VM.  To start that off, run:
 
 `vagrant up multi`
 
-SSH into that machine with `vagrant ssh multi` and Zookeeper will be listening on ports 2181, 2182, and 2183.  The ultilities descirbed below will still work.
+SSH into that machine with `vagrant ssh multi` and Zookeeper will be listening on ports 2181, 2182, and 2183.  The utilities descirbed below will still work.  You will, however, have to use the `--host` argument.
 
 
 
