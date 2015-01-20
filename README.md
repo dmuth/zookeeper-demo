@@ -31,6 +31,16 @@ You can SSH into each server by typing `vagrant ssh zoo1` (or zoo2 or zoo3 as ap
 - zoo3: 10.0.10.103
 
 
+## Quickstart with low RAM
+
+Each of those VMs takes up 256 MB of RAM.  Don't feel like wasting 3/4ths of a Gig of RAM just to play with Zookeeper?  No worries, I included a separate setup 
+to run multiple copies of Zookeeper on the same VM.  To start that off, run:
+
+`vagrant up multi`
+
+SSH into that machine with `vagrant ssh multi` and Zookeeper will be listening on ports 2181, 2182, and 2183.  The ultilities descirbed below will still work.
+
+
 
 ## Utilities to play with
 
