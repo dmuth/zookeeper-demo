@@ -31,6 +31,25 @@ then
 
 fi
 
+echo "# "
+echo "# Creating and enabling our swapfile"
+echo "# "
+SWAPFILE="/swapfile"
+if test ! -f ${SWAPFILE}
+then
+	fallocate -l 1G ${SWAPFILE}
+fi
+
+chmod 600 ${SWAPFILE}
+mkswap ${SWAPFILE}
+swapon ${SWAPFILE} || true
+
+echo "# "
+echo "# Note that the swap won't survive a reboot. "
+echo "# You'll need to rerun this provision script at reboot."
+echo "# "
+
+
 
 echo "# " 
 echo "# Installing Zookeeper and our necesary Python modules" 
