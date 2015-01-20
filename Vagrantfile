@@ -102,6 +102,34 @@ Vagrant.configure("2") do |config|
 	end
 
 
+	config.vm.define :multi do |host|
+
+		host.vm.box = "ubuntu/trusty64"
+		host.vm.hostname = "multi"
+		host.vm.network "private_network", ip: "10.0.10.104"
+
+		#
+		# Set the amount of RAM and CPU cores
+		#
+		host.vm.provider "virtualbox" do |v|
+			v.memory = 256
+			v.cpus = 2
+		end
+
+		#
+		# Updating the plugins at start time never ends well.
+		#
+		if Vagrant.has_plugin?("vagrant-vbguest")
+			config.vbguest.auto_update = false
+		end
+
+		#
+		# Provision this instance
+		#
+		host.vm.provision "shell", path: "./bin/provision-multi.sh"
+
+	end
+
 end
 
 
